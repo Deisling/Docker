@@ -1,0 +1,55 @@
+wsl --install -d ubuntu
+
+sudo apt update
+sudo apt install docker.io -y
+sudo nano /etc/sudoers
+kirill ALL=(ALL) NOPASSWD: ALL
+
+nano ~/.bashrc
+RUNNING=`ps aux | grep dockerd | grep -v grep`
+if [ -z "$RUNNING" ]; then
+    sudo dockerd > /dev/null 2>&1 &
+    disown
+fi
+
+sudo usermod -aG docker $USER
+docker run hello-world
+
+
+wget https://github.com/docker/compose/releases/download/v2.6.0/docker-compose-linux-x86_64
+sudo chmod +x docker-compose-linux-x86_64
+sudo mv docker-compose-linux-x86_64 /usr/local/bin/docker-compose
+docker-compose --version
+
+
+sudo apt install build-essential
+sudo apt install net-tools
+sudo apt install xrdp -y && sudo systemctl enable xrdp
+
+sudo apt install -y tasksel
+sudo tasksel install xubuntu-desktop
+sudo apt install gtk2-engines
+
+nano ~/.bashrc
+export DISPLAY=$(cat /etc/resolv.conf | grep nameserver | awk '{print $2; exit;}'):0.0
+export LIBGL_ALWAYS_INDIRECT=1
+sudo /etc/init.d/dbus start &> /dev/null
+
+sudo apt install python3.9
+sudo apt install python3-dev
+sudo apt install python3-distutils
+
+
+wget https://download-cdn.jetbrains.com/python/pycharm-community-2022.1.2.tar.gz
+tar -zxvf pycharm-community-2022.1.2.tar.gz
+mv pycharm-community-2022.1.2 pycharm
+
+ssh-keygen
+
+cat ~/.ssh/id_rsa.pub
+
+
+https://sourceforge.net/projects/vcxsrv/
+
+cd pycharm/bin
+./pycharm.sh
